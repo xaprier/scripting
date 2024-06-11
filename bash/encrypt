@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Usage: ./encrypt filename
+
+# file given with parameter
+input_file="$1"
+
+# no file specified
+if [ -z "$input_file" ]; then
+  echo "Usage: $0 file_name"
+  exit 1
+fi
+
+# remove file extension and add .enc
+output_file="${input_file%.*}.enc"
+
+# get password
+read -s -p "Password: " password
+echo
+
+openssl enc -aes-256-cbc -salt -in "$input_file" -out "$output_file" -k "$password"
+
+echo "File encrypted: $output_file"

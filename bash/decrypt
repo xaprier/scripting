@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Usage: ./decrypt encrypted_file
+
+# encrypted file given with parameter
+encrypted_file="$1"
+
+# no given encrypted file
+if [ -z "$encrypted_file" ]; then
+  echo "Usage: $0 encrypted_file"
+  exit 1
+fi
+
+read -s -p "Password: " password
+echo
+
+openssl enc -d -aes-256-cbc -in "$encrypted_file" -out "${encrypted_file%.*}" -k "$password"
+
+echo "File decrypted: ${encrypted_file%.*}"
